@@ -37,9 +37,9 @@ const AddPlotForm = () => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm mb-10">
+    <div id="add-plot-form" className="card-base mb-2">
       <div className="flex items-center gap-2 mb-6">
-        <PlusCircle className="text-green-600" size={24} />
+        <PlusCircle className="text-emerald-700" size={24} />
         <h2 className="text-xl font-bold text-slate-800">Add New Land Plot</h2>
       </div>
 
@@ -50,7 +50,7 @@ const AddPlotForm = () => {
           <input 
             type="text" 
             placeholder="e.g., North Kila Wheat" 
-            className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-green-500 outline-none transition-all text-slate-700"
+            className="input-shell w-full px-4 py-3"
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
           />
@@ -64,7 +64,7 @@ const AddPlotForm = () => {
             <input 
               type="text" 
               placeholder="Paste ID from Agro site" 
-              className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-2 focus:ring-green-500 outline-none transition-all text-slate-700 font-mono text-sm"
+              className="input-shell w-full pl-10 pr-4 py-3 font-mono text-sm"
               value={polyId}
               onChange={(e) => setPolyId(e.target.value)}
             />
@@ -75,7 +75,7 @@ const AddPlotForm = () => {
         <div className="flex items-end">
           <button 
             type="submit"
-            className="w-full bg-green-900 text-white font-bold py-3 px-6 rounded-2xl hover:bg-green-800 active:scale-95 transition-all shadow-lg shadow-green-900/20"
+            className="btn-primary w-full py-3"
           >
             Register Plot
           </button>
