@@ -1,11 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, LandPlot, ChartArea, UserCircle2 } from 'lucide-react';
+import { LayoutDashboard, LandPlot, ChartArea, UserCircle2, FileText } from 'lucide-react';
 
 const navItems = [
   { to: '/', label: 'Overview', icon: LayoutDashboard, end: true },
   { to: '/plots', label: 'Plots', icon: LandPlot },
   { to: '/analytics', label: 'Analytics', icon: ChartArea },
+  { to: '/about', label: 'About', icon: FileText },
 ];
 
 const Layout = ({ children }) => {
