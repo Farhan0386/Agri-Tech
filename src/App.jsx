@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { store } from './store';
 import Layout from './components/Layout';
 import ErrorBoundary from './components/ErrorBoundary';
+import { Analytics } from "@vercel/analytics/next";
 
 // Lazy loading for performance [cite: 14, 21]
 const Dashboard = lazy(() => import('./pages/Dashboard'));

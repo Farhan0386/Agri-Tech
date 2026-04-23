@@ -2,23 +2,23 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addPlot, getSoilInfo } from '../store/farmSlice';
 import { PlusCircle, Map } from 'lucide-react';
-import { DEMO_POLYGON_ID, getRandomDemoPlotName } from '../utils/demoPlot';
 
 const AddPlotForm = () => {
-  const [polygonId, setPolygonId] = useState(DEMO_POLYGON_ID);
-  const [nickname, setNickname] = useState(() => getRandomDemoPlotName());
+  const [plotData, setPlotData] = useState({
+    nickname: 'Demo Field Alpha',
+    polygonId: '69ea12dd646c6525ad9fd4ad',
+  });
   const dispatch = useDispatch();
 
-  const resetToQuickStartDefaults = () => {
-    setNickname(getRandomDemoPlotName());
-    setPolygonId(DEMO_POLYGON_ID);
+  const clearForm = () => {
+    setPlotData({ nickname: '', polygonId: '' });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     
     // Basic validation to prevent empty submissions
-    if (!polygonId.trim() || !nickname.trim()) {
+    if (!plotData.polygonId.trim() || !plotData.nickname.trim()) {
       alert("Please enter both a Polygon ID and a Nickname.");
       return;
     }
@@ -26,8 +26,8 @@ const AddPlotForm = () => {
     // 1. Create the new plot object
     const newPlot = {
       id: Date.now(), // Unique ID for Redux state
-      polyId: polygonId.trim(), // The real ID from your AgroMonitoring dashboard
-      nickname: nickname.trim(),
+      polyId: plotData.polygonId.trim(), // The real ID from your AgroMonitoring dashboard
+      nickname: plotData.nickname.trim(),
       soilData: null // This will be filled by the API call
     };
 
@@ -35,10 +35,10 @@ const AddPlotForm = () => {
     dispatch(addPlot(newPlot));
 
     // 3. Immediately trigger API call to get real-time data for this new plot
-    dispatch(getSoilInfo(polygonId.trim()));
+    dispatch(getSoilInfo(plotData.polygonId.trim()));
 
-    // 4. Reset to quick-start defaults for fast repeated grading checks.
-    resetToQuickStartDefaults();
+    // 4. Reset form fields so users can add their own custom plots quickly.
+    clearForm();
   };
 
   return (
@@ -56,8 +56,8 @@ const AddPlotForm = () => {
             type="text" 
             placeholder="e.g., North Kila Wheat" 
             className="input-shell w-full px-4 py-3"
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
+            value={plotData.nickname}
+            onChange={(e) => setPlotData((prev) => ({ ...prev, nickname: e.target.value }))}
           />
         </div>
 
@@ -70,8 +70,8 @@ const AddPlotForm = () => {
               type="text" 
               placeholder="Paste ID from Agro site" 
               className="input-shell w-full pl-10 pr-4 py-3 font-mono text-sm"
-              value={polygonId}
-              onChange={(e) => setPolygonId(e.target.value)}
+              value={plotData.polygonId}
+              onChange={(e) => setPlotData((prev) => ({ ...prev, polygonId: e.target.value }))}
             />
           </div>
         </div>
@@ -80,10 +80,10 @@ const AddPlotForm = () => {
         <div className="flex items-end gap-2">
           <button 
             type="button"
-            onClick={resetToQuickStartDefaults}
+            onClick={clearForm}
             className="w-full rounded-xl border border-emerald-200 bg-emerald-50 py-3 font-semibold text-emerald-800 transition hover:bg-emerald-100"
           >
-            Clear
+            Clear Form
           </button>
           <button 
             type="submit"
