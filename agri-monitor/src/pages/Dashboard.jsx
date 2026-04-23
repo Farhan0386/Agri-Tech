@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSoilInfo, deletePlot, updatePlotName } from '../store/farmSlice';
+import { addPlot, getSoilInfo, deletePlot, updatePlotName } from '../store/farmSlice';
 import AddPlotForm from '../components/AddPlotForm';
 import PlotCard from '../components/PlotCard';
 import EmptyState from '../components/EmptyState';
 import SkeletonCard from '../components/SkeletonCard';
 import { RefreshCw, Search } from 'lucide-react';
+import { createDemoPlot, DEMO_POLYGON_ID } from '../utils/demoPlot';
 
 const Dashboard = ({ initialSection = 'overview' }) => {
   const dispatch = useDispatch();
@@ -60,6 +61,12 @@ const Dashboard = ({ initialSection = 'overview' }) => {
 
   const showEmptyState = filteredPlots.length === 0 && !loading;
 
+  const loadDemoData = () => {
+    const demoPlot = createDemoPlot();
+    dispatch(addPlot(demoPlot));
+    dispatch(getSoilInfo(DEMO_POLYGON_ID));
+  };
+
   return (
     <div className="dashboard-wrap">
       <div className="mx-auto max-w-7xl space-y-8 px-4 py-6 sm:px-6 lg:px-8">
@@ -97,6 +104,23 @@ const Dashboard = ({ initialSection = 'overview' }) => {
         </section>
 
         <section id="plots" className="dashboard-section">
+          {plots.length === 0 && (
+            <div className="mb-4 rounded-2xl border border-emerald-100 bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
+              <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
+                <p>
+                  Quick-start tip: load a demo plot for grading using Polygon ID
+                  <span className="ml-1 font-mono text-emerald-800">{DEMO_POLYGON_ID}</span>.
+                </p>
+                <button
+                  type="button"
+                  onClick={loadDemoData}
+                  className="rounded-lg bg-emerald-900 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white transition hover:bg-emerald-800"
+                >
+                  Load Demo Data
+                </button>
+              </div>
+            </div>
+          )}
           <AddPlotForm />
         </section>
 

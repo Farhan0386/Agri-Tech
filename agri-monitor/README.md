@@ -1,16 +1,44 @@
-# React + Vite
+# 🌾 Agri-Monitor: Precision Agriculture Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Live Deployment:** [https://agri-tech-eight.vercel.app/](https://agri-tech-eight.vercel.app/)
 
-Currently, two official plugins are available:
+## 📖 Project Overview
+Agri-Monitor is a professional-grade Agricultural Decision Support System (DSS). It solves the problem of "invisible" soil health by integrating with the **AgroMonitoring API** to provide real-time satellite-derived data for soil moisture, temperature, and vegetation health.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### 🎯 Problem Definition
+Farmers and land managers often lack access to scientific data regarding soil conditions at a granular level. This leads to inefficient water usage and delayed response to crop stress. Agri-Monitor provides a centralized dashboard to manage multiple land plots using digital "Polygons."
 
-## React Compiler
+## 🛠️ Tech Stack (SOP Mandatory)
+- **Frontend:** React (Vite)
+- **State Management:** Redux Toolkit (Slices for Farm & Plot data)
+- **Routing:** React Router 6
+- **API Integration:** Axios (with error handling and interceptors)
+- **Styling:** Tailwind CSS (Responsive Design)
+- **Visuals:** Recharts (NDVI Trends & Soil Metrics)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ✨ Advanced Features (Selected 3+)
+1. **Satellite Data Visualization:** Dynamic AreaCharts showing historical vegetation indices.
+2. **Error Boundary Implementation:** Custom React Error Boundaries to prevent app crashes during API failures.
+3. **Performance Optimization:** Component lazy-loading using `React.lazy` and `Suspense`.
+4. **Search & Filter:** Real-time filtering of land plots by nickname or ID.
 
-## Expanding the ESLint configuration
+## 🚀 Quick Start & Usage
+1. **Clone the Repo:** `git clone https://github.com/farhan0386/agri-tech.git`
+2. **Install Dependencies:** `npm install`
+3. **Environment Variables:** Create a `.env` file and add:
+	`VITE_AGRO_API_KEY=your_api_key_here`
+4. **Run App:** `npm run dev`
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 📋 Demo Plot Details
+To test the dashboard immediately without creating your own Polygon:
+- **Default Polygon ID:** `69ea12dd646c6525ad9fd4ad`
+- **Default Name:** Demo Field Alpha
+
+## 📂 Project Structure
+- `/src/store`: Redux logic for global state management.
+- `/src/api`: Axios service configurations for AgroMonitoring.
+- `/src/pages`: Main views (Dashboard, About).
+- `/src/components`: Reusable UI elements (Charts, Forms, Cards).
+
+---
+*Developed for University Capstone Project - Semester 2*
