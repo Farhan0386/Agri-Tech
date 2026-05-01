@@ -1,51 +1,65 @@
 import React, { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { store } from './store';
-import Layout from './components/Layout';
-import ErrorBoundary from './components/ErrorBoundary';
+import { Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
 
+// Lazy load pages for performance optimization
+const Home = lazy(() => import('./pages/Home'));
+const Listings = lazy(() => import('./pages/Listings'));
+const PropertyDetail = lazy(() => import('./pages/PropertyDetail'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
-// Lazy loading for performance [cite: 14, 21]
-const Dashboard = lazy(() => import('./pages/Dashboard'));
-const About = lazy(() => import('./pages/About'));
+// Error Boundary Component
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
 
-const RouteShell = () => {
-  const location = useLocation();
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
 
+  componentDidCatch(error, errorInfo) {
+    console.error("Error caught in boundary:", error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen flex items-center justify-center flex-col p-4 text-center">
+          <h1 className="text-4xl font-bold text-red-500 mb-4">Oops! Something went wrong.</h1>
+          <p className="text-muted-foreground mb-6">We're sorry, but an unexpected error occurred.</p>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+          >
+            Refresh Page
+          </button>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+const App = () => {
   return (
-    <Layout>
-      <ErrorBoundary key={location.pathname}>
-        <Suspense
-          fallback={
-            <div className="flex min-h-full items-center justify-center py-24">
-              <div className="rounded-2xl border border-emerald-100 bg-white px-6 py-4 text-sm font-medium text-emerald-900 shadow-sm">
-                Loading dashboard...
-              </div>
-            </div>
-          }
-        >
-          <Routes>
-            {/* SOP [cite: 12]: React Router manages navigation, including the About documentation page. */}
-            <Route path="/" element={<Dashboard initialSection="overview" />} />
-            <Route path="/plots" element={<Dashboard initialSection="plots" />} />
-            <Route path="/analytics" element={<Dashboard initialSection="analytics" />} />
-            <Route path="/about" element={<About />} />
-          </Routes>
-        </Suspense>
-      </ErrorBoundary>
-    </Layout>
+    <ErrorBoundary>
+      <div className="min-h-screen flex flex-col bg-background text-foreground transition-colors duration-300">
+        <Navbar />
+        <main className="flex-grow pt-16">
+          <Suspense fallback={<div className="min-h-[50vh] flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div></div>}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/listings" element={<Listings />} />
+              <Route path="/property/:id" element={<PropertyDetail />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Suspense>
+        </main>
+      </div>
+    </ErrorBoundary>
   );
 };
-
-function App() {
-  return (
-    <Provider store={store}>
-      <Router>
-        <RouteShell />
-      </Router>
-    </Provider>
-  );
-}
 
 export default App;
